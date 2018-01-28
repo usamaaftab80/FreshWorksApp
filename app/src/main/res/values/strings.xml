@@ -4,5 +4,5 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="gif_trending_search_fragment">Search GIFs from Giphy</string>
     <string name="gif_favorite_fragment">Favorite GIFs from Giphy</string>
-
+    <string name="title_not_found">Title not found</string>
 </resources>

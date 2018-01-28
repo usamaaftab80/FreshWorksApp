@@ -7,27 +7,37 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
+import com.bumptech.glide.Glide;
 import com.freshworks.app.R;
+import com.freshworks.app.adapters.SearchGifListAdapter;
+import com.freshworks.app.presenters.GiphyListPresenter;
+import com.giphy.sdk.core.models.Media;
+import com.giphy.sdk.core.network.api.GPHApi;
+import com.giphy.sdk.core.network.api.GPHApiClient;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class SearchGifFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
+    private ListView mGifListView;
+    private SearchGifListAdapter mSearchGifListAdapter;
+    private GiphyListPresenter mGiphyListPresenter;
+
+    private static GPHApi client = new GPHApiClient("HCJPOrE9Ytk3MxU60FZ3wIegQk2tH42u");
 
     public SearchGifFragment() {
-        // Required empty public constructor
-    }
-
-    public static SearchGifFragment newInstance() {
-        SearchGifFragment fragment = new SearchGifFragment();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
-        return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        mGiphyListPresenter = new GiphyListPresenter(getActivity(), this, client);
+        mGiphyListPresenter.loadTrending(10);
     }
 
     @Override
@@ -35,6 +45,11 @@ public class SearchGifFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_gif, container, false);
+        ArrayList<Media> dummyGifs = new ArrayList<Media>();
+
+        mGifListView = (ListView) rootView.findViewById(R.id.gif_listview);
+        mSearchGifListAdapter = new SearchGifListAdapter(getActivity(), dummyGifs);
+        mGifListView.setAdapter(mSearchGifListAdapter);
 
         return rootView;
     }
@@ -56,6 +71,12 @@ public class SearchGifFragment extends Fragment {
         mListener = null;
     }
 
+    public void displayGifs(List<Media> gifs) {
+
+        mSearchGifListAdapter.clear();
+        mSearchGifListAdapter.addAll(gifs);
+        mSearchGifListAdapter.notifyDataSetInvalidated();
+    }
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);

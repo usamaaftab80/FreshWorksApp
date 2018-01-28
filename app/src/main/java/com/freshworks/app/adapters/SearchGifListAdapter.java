@@ -4,13 +4,16 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.GlideBuilder;
 import com.freshworks.app.R;
+import com.giphy.sdk.core.models.Media;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,54 +22,46 @@ import java.util.List;
  * Created by Usama Aftab on 2018-01-27.
  */
 
-public class SearchGifListAdapter extends BaseAdapter {
+public class SearchGifListAdapter extends ArrayAdapter<Media> {
 
     private Context mContext;
-    private ArrayList<String> mGifUrls;
-    private ArrayList<String> mGifNames;
     private static LayoutInflater inflater = null;
+    private List<Media> mGifs;
 
-    public SearchGifListAdapter(Context context, List<String> gifNames, List<String> gifUrls) {
+    public SearchGifListAdapter(Context context, ArrayList<Media> gifs) {
+        super(context, 0, gifs);
+
         this.mContext = context;
-        this.mGifUrls = (ArrayList) gifUrls;
-        this.mGifNames = (ArrayList) gifNames;
-
+        this.mGifs = gifs;
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     @Override
-    public int getCount() {
-        return mGifUrls.size();
-    }
-
-    @Override
-    public Object getItem(int i) {
-        return i;
-    }
-
-    @Override
-    public long getItemId(int i) {
-        return (long) i;
-    }
-
-    @Override
     public View getView(final int position, View view, ViewGroup viewGroup) {
-        Holder holder = new Holder();
-        View rowView = inflater.inflate(R.layout.item_gif, null);
-        holder.gifTextView = (TextView) rowView.findViewById(R.id.gif_textview);
-        holder.gifImageView = (ImageView) rowView.findViewById(R.id.gif_imageview);
 
-        holder.gifTextView.setText(mGifNames.get(position));
-        String url = mGifUrls.get(position);
+        Media gif = getItem(position);
+        Holder holder = new Holder();
+
+        if (view == null)
+            view = LayoutInflater.from(getContext()).inflate(R.layout.item_gif, viewGroup, false);
+
+        holder.gifTextView = (TextView) view.findViewById(R.id.gif_textview);
+        holder.gifImageView = (ImageView) view.findViewById(R.id.gif_imageview);
+
+        if (gif.getTitle().isEmpty()) {
+            holder.gifTextView.setText(R.string.title_not_found);
+        } else {
+            holder.gifTextView.setText(gif.getTitle());
+        }
 
         Glide.with(mContext)
-             .load(url)
-             .into(holder.gifImageView);
-        return rowView;
+                .load(gif.getImages().getDownsizedMedium().getGifUrl())
+                .into(holder.gifImageView);
+
+        return view;
     }
 
-    public class Holder
-    {
+    public class Holder {
         TextView gifTextView;
         ImageView gifImageView;
     }

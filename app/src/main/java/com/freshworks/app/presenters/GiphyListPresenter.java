@@ -1,8 +1,11 @@
 package com.freshworks.app.presenters;
 
+import android.content.Context;
 import android.util.Log;
 import android.widget.ListView;
 
+import com.bumptech.glide.Glide;
+import com.freshworks.app.views.fragments.SearchGifFragment;
 import com.giphy.sdk.core.models.Media;
 import com.giphy.sdk.core.models.enums.MediaType;
 import com.giphy.sdk.core.network.api.CompletionHandler;
@@ -17,14 +20,17 @@ public class GiphyListPresenter {
 
     // Presenter variables
     private static String TAG = "GiphyListPresenter";
-    private ListView mGiphyListView;
+    private SearchGifFragment mGiphySearchFragment;
 
     // Giphy Api Variables
     private GPHApi mGiphyApi;
 
-    public GiphyListPresenter(ListView listView, GPHApi giphyApi) {
-        this.mGiphyListView = listView;
+    private Context mContext;
+
+    public GiphyListPresenter(Context context, SearchGifFragment searchFragment, GPHApi giphyApi) {
+        this.mGiphySearchFragment = searchFragment;
         this.mGiphyApi = giphyApi;
+        mContext = context;
     }
 
     public void loadTrending(int offset) {
@@ -38,7 +44,10 @@ public class GiphyListPresenter {
                         Log.d(TAG, "The number of gifs displaying are: " + result.getData().size());
                         for (Media gif : result.getData()) {
                             Log.d(TAG, gif.getId());
+
                         }
+
+                        mGiphySearchFragment.displayGifs(result.getData());
                     } else {
                         Log.e(TAG, "No results found");
                     }
@@ -59,6 +68,7 @@ public class GiphyListPresenter {
                         for (Media gif : result.getData()) {
                             Log.d(TAG, gif.getId());
                         }
+                        mGiphySearchFragment.displayGifs(result.getData());
                     } else {
                         Log.e(TAG, "No results found");
                     }
