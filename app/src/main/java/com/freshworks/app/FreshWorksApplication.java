@@ -1,6 +1,7 @@
 package com.freshworks.app;
 
 import android.app.Application;
+import android.view.WindowManager;
 
 /**
  * Created by Usama Aftab on 2018-01-25.
