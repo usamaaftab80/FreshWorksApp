@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity implements SearchGifFragment
 
     }
 
+
     private void setChildrenViews() {
         // Find the view pager that will allow the user to swipe between fragments
         mViewPager = (ViewPager) findViewById(R.id.slideViewPager);

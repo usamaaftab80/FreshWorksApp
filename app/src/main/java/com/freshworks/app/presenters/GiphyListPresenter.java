@@ -44,9 +44,7 @@ public class GiphyListPresenter {
                         Log.d(TAG, "The number of gifs displaying are: " + result.getData().size());
                         for (Media gif : result.getData()) {
                             Log.d(TAG, gif.getId());
-
                         }
-
                         mGiphySearchFragment.displayGifs(result.getData());
                     } else {
                         Log.e(TAG, "No results found");

@@ -17,6 +17,7 @@ import com.giphy.sdk.core.models.Media;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by Usama Aftab on 2018-01-27.
@@ -55,12 +56,11 @@ public class SearchGifListAdapter extends ArrayAdapter<Media> {
         }
 
         Glide.with(mContext)
-                .load(gif.getImages().getDownsizedMedium().getGifUrl())
+                .load(gif.getImages().getDownsized().getGifUrl())
                 .into(holder.gifImageView);
 
         return view;
     }
-
     public class Holder {
         TextView gifTextView;
         ImageView gifImageView;

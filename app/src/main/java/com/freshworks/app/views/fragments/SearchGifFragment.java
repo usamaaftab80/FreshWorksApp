@@ -4,12 +4,18 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.MenuItemCompat;
+import android.support.v7.widget.SearchView;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.freshworks.app.R;
 import com.freshworks.app.adapters.SearchGifListAdapter;
 import com.freshworks.app.presenters.GiphyListPresenter;
@@ -21,6 +27,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SearchGifFragment extends Fragment {
+
+    private static String TAG = "SearchGifFragment";
 
     private OnFragmentInteractionListener mListener;
     private ListView mGifListView;
@@ -35,9 +43,8 @@ public class SearchGifFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        setHasOptionsMenu(true);
         mGiphyListPresenter = new GiphyListPresenter(getActivity(), this, client);
-        mGiphyListPresenter.loadTrending(10);
     }
 
     @Override
@@ -54,6 +61,76 @@ public class SearchGifFragment extends Fragment {
         return rootView;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        mGiphyListPresenter.loadTrending(10);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.searchable_menu, menu);
+
+        MenuItem searchItem = menu.findItem(R.id.action_search);
+        SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+
+        searchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
+
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+
+            }
+        });
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+
+            @Override
+            public boolean onQueryTextSubmit(String searchQuery) {
+                mGiphyListPresenter.searchGifs(searchQuery, 10);
+                mGifListView.invalidate();
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String searchQuery) {
+                if(!searchQuery.isEmpty()) {
+                    mGiphyListPresenter.searchGifs(searchQuery, 10);
+                    mGifListView.invalidate();
+                    return true;
+                } else {
+                  return false;
+                }
+
+            }
+        });
+        MenuItemCompat.setOnActionExpandListener(searchItem, new MenuItemCompat.OnActionExpandListener() {
+            @Override
+            public boolean onMenuItemActionExpand(MenuItem item) {
+                return true;
+            }
+
+            @Override
+            public boolean onMenuItemActionCollapse(MenuItem item) {
+                // reload the trending gifs
+                mGiphyListPresenter.loadTrending(10);
+                return true;
+            }
+        });
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.action_search) {
+
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -77,6 +154,7 @@ public class SearchGifFragment extends Fragment {
         mSearchGifListAdapter.addAll(gifs);
         mSearchGifListAdapter.notifyDataSetInvalidated();
     }
+
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
