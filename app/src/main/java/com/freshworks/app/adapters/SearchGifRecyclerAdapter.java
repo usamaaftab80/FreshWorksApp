@@ -1,6 +1,7 @@
 package com.freshworks.app.adapters;
 
 import android.content.Context;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,14 +20,13 @@ import java.util.List;
  * Created by Usama Aftab on 2018-01-27.
  */
 
-public class SearchGifListAdapter extends ArrayAdapter<Media> {
+public class SearchGifRecyclerAdapter extends RecyclerView.Adapter<SearchGifRecyclerAdapter.LineHolder> {
 
     private Context mContext;
     private static LayoutInflater inflater = null;
     private List<Media> mGifs;
 
-    public SearchGifListAdapter(Context context, ArrayList<Media> gifs) {
-        super(context, 0, gifs);
+    public SearchGifRecyclerAdapter(Context context, ArrayList<Media> gifs) {
 
         this.mContext = context;
         this.mGifs = gifs;
@@ -34,16 +34,14 @@ public class SearchGifListAdapter extends ArrayAdapter<Media> {
     }
 
     @Override
-    public View getView(final int position, View view, ViewGroup viewGroup) {
+    public LineHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        return new LineHolder(LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.item_gif, parent, false));
+    }
 
-        Media gif = getItem(position);
-        Holder holder = new Holder();
-
-        if (view == null)
-            view = LayoutInflater.from(getContext()).inflate(R.layout.item_gif, viewGroup, false);
-
-        holder.gifTextView = (TextView) view.findViewById(R.id.gif_textview);
-        holder.gifImageView = (ImageView) view.findViewById(R.id.gif_imageview);
+    @Override
+    public void onBindViewHolder(LineHolder holder, int position) {
+        Media gif = this.mGifs.get(position);
 
         if (gif.getTitle().isEmpty()) {
             holder.gifTextView.setText(R.string.title_not_found);
@@ -55,10 +53,27 @@ public class SearchGifListAdapter extends ArrayAdapter<Media> {
                 .load(gif.getImages().getDownsized().getGifUrl())
                 .into(holder.gifImageView);
 
-        return view;
     }
-    public class Holder {
+
+    @Override
+    public int getItemCount() {
+        return this.mGifs.size();
+    }
+
+    public void notifyData(List<Media> gifList) {
+        this.mGifs = gifList;
+        notifyDataSetChanged();
+    }
+
+    public class LineHolder extends RecyclerView.ViewHolder {
+
         TextView gifTextView;
         ImageView gifImageView;
+
+        public LineHolder(View itemView) {
+            super(itemView);
+            gifTextView = (TextView) itemView.findViewById(R.id.gif_textview);
+            gifImageView = (ImageView) itemView.findViewById(R.id.gif_imageview);
+        }
     }
 }

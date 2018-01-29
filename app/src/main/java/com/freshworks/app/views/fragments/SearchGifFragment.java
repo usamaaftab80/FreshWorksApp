@@ -5,6 +5,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 
 import android.view.LayoutInflater;
@@ -13,10 +15,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 
 import com.freshworks.app.R;
-import com.freshworks.app.adapters.SearchGifListAdapter;
+import com.freshworks.app.adapters.SearchGifRecyclerAdapter;
 import com.freshworks.app.data.Constant;
 import com.freshworks.app.presenters.GiphyListPresenter;
 import com.giphy.sdk.core.models.Media;
@@ -31,8 +32,8 @@ public class SearchGifFragment extends Fragment {
     private static String TAG = "SearchGifFragment";
 
     private OnFragmentInteractionListener mListener;
-    private ListView mGifListView;
-    private SearchGifListAdapter mSearchGifListAdapter;
+    private RecyclerView mGifRecyclerView;
+    private SearchGifRecyclerAdapter mSearchGifListAdapter;
     private GiphyListPresenter mGiphyListPresenter;
 
     private static GPHApi client = new GPHApiClient(Constant.GIPHY_API_KEY);
@@ -54,9 +55,11 @@ public class SearchGifFragment extends Fragment {
         ArrayList<Media> dummyGifs = new ArrayList<Media>();
 
         //At the start, give an empty list to adapter.
-        mGifListView = (ListView) rootView.findViewById(R.id.gif_listview);
-        mSearchGifListAdapter = new SearchGifListAdapter(getActivity(), dummyGifs);
-        mGifListView.setAdapter(mSearchGifListAdapter);
+        mGifRecyclerView = (RecyclerView) rootView.findViewById(R.id.gif_recyclerview);
+        mGifRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        mSearchGifListAdapter = new SearchGifRecyclerAdapter(getActivity(), dummyGifs);
+        mGifRecyclerView.setAdapter(mSearchGifListAdapter);
 
         return rootView;
     }
@@ -83,7 +86,7 @@ public class SearchGifFragment extends Fragment {
             @Override
             public boolean onQueryTextSubmit(String searchQuery) {
                 mGiphyListPresenter.searchGifs(searchQuery, Constant.LIST_OFFSET);
-                mGifListView.invalidate();
+                mGifRecyclerView.invalidate();
                 return true;
             }
 
@@ -91,7 +94,7 @@ public class SearchGifFragment extends Fragment {
             public boolean onQueryTextChange(String searchQuery) {
                 if(!searchQuery.isEmpty()) {
                     mGiphyListPresenter.searchGifs(searchQuery, Constant.LIST_OFFSET);
-                    mGifListView.invalidate();
+                    mGifRecyclerView.invalidate();
                     return true;
                 } else {
                   return false;
@@ -142,10 +145,7 @@ public class SearchGifFragment extends Fragment {
     }
 
     public void displayGifs(List<Media> gifs) {
-
-        mSearchGifListAdapter.clear();
-        mSearchGifListAdapter.addAll(gifs);
-        mSearchGifListAdapter.notifyDataSetInvalidated();
+        mSearchGifListAdapter.notifyData(gifs);
     }
 
     public interface OnFragmentInteractionListener {
