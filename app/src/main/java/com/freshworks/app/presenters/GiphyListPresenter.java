@@ -2,9 +2,8 @@ package com.freshworks.app.presenters;
 
 import android.content.Context;
 import android.util.Log;
-import android.widget.ListView;
 
-import com.bumptech.glide.Glide;
+import com.freshworks.app.data.Constant;
 import com.freshworks.app.views.fragments.SearchGifFragment;
 import com.giphy.sdk.core.models.Media;
 import com.giphy.sdk.core.models.enums.MediaType;
@@ -30,7 +29,7 @@ public class GiphyListPresenter {
     public GiphyListPresenter(Context context, SearchGifFragment searchFragment, GPHApi giphyApi) {
         this.mGiphySearchFragment = searchFragment;
         this.mGiphyApi = giphyApi;
-        mContext = context;
+        this.mContext = context;
     }
 
     public void loadTrending(int offset) {
@@ -41,13 +40,13 @@ public class GiphyListPresenter {
                     // Do what you want to do with the error
                 } else {
                     if (result.getData() != null) {
-                        Log.d(TAG, "The number of gifs displaying are: " + result.getData().size());
+                        Log.d(TAG, Constant.NUMBER_OF_GIFS_DISPLAYING + result.getData().size());
                         for (Media gif : result.getData()) {
                             Log.d(TAG, gif.getId());
                         }
                         mGiphySearchFragment.displayGifs(result.getData());
                     } else {
-                        Log.e(TAG, "No results found");
+                        Log.e(TAG, Constant.NO_RESULTS_FOUND);
                     }
                 }
             }
@@ -62,13 +61,13 @@ public class GiphyListPresenter {
                     // Do what you want to do with the error
                 } else {
                     if (result.getData() != null) {
-                        Log.d(TAG, "The number of gifs searched are: " + result.getData().size());
+                        Log.d(TAG, Constant.NUMBER_OF_GIFS_SEARCHED + result.getData().size());
                         for (Media gif : result.getData()) {
                             Log.d(TAG, gif.getId());
                         }
                         mGiphySearchFragment.displayGifs(result.getData());
                     } else {
-                        Log.e(TAG, "No results found");
+                        Log.e(TAG, Constant.NO_RESULTS_FOUND);
                     }
                 }
             }

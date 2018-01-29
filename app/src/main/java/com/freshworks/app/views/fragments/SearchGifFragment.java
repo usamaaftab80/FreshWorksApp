@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.SearchView;
-import android.util.Log;
+
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -14,10 +14,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.freshworks.app.R;
 import com.freshworks.app.adapters.SearchGifListAdapter;
+import com.freshworks.app.data.Constant;
 import com.freshworks.app.presenters.GiphyListPresenter;
 import com.giphy.sdk.core.models.Media;
 import com.giphy.sdk.core.network.api.GPHApi;
@@ -35,8 +35,7 @@ public class SearchGifFragment extends Fragment {
     private SearchGifListAdapter mSearchGifListAdapter;
     private GiphyListPresenter mGiphyListPresenter;
 
-    private static GPHApi client = new GPHApiClient("HCJPOrE9Ytk3MxU60FZ3wIegQk2tH42u");
-
+    private static GPHApi client = new GPHApiClient(Constant.GIPHY_API_KEY);
     public SearchGifFragment() {
     }
 
@@ -54,6 +53,7 @@ public class SearchGifFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_gif, container, false);
         ArrayList<Media> dummyGifs = new ArrayList<Media>();
 
+        //At the start, give an empty list to adapter.
         mGifListView = (ListView) rootView.findViewById(R.id.gif_listview);
         mSearchGifListAdapter = new SearchGifListAdapter(getActivity(), dummyGifs);
         mGifListView.setAdapter(mSearchGifListAdapter);
@@ -65,7 +65,8 @@ public class SearchGifFragment extends Fragment {
     public void onResume() {
         super.onResume();
 
-        mGiphyListPresenter.loadTrending(10);
+        //Load it every time the fragment resumes, just to make sure that is loading the most recent trending.
+        mGiphyListPresenter.loadTrending(Constant.LIST_OFFSET);
     }
 
     @Override
@@ -73,22 +74,15 @@ public class SearchGifFragment extends Fragment {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.searchable_menu, menu);
 
+        // Implementing the search menu
         MenuItem searchItem = menu.findItem(R.id.action_search);
         SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
-
-        searchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
-
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-
-            }
-        });
-
+        searchView.setMaxWidth(Integer.MAX_VALUE);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 
             @Override
             public boolean onQueryTextSubmit(String searchQuery) {
-                mGiphyListPresenter.searchGifs(searchQuery, 10);
+                mGiphyListPresenter.searchGifs(searchQuery, Constant.LIST_OFFSET);
                 mGifListView.invalidate();
                 return true;
             }
@@ -96,7 +90,7 @@ public class SearchGifFragment extends Fragment {
             @Override
             public boolean onQueryTextChange(String searchQuery) {
                 if(!searchQuery.isEmpty()) {
-                    mGiphyListPresenter.searchGifs(searchQuery, 10);
+                    mGiphyListPresenter.searchGifs(searchQuery, Constant.LIST_OFFSET);
                     mGifListView.invalidate();
                     return true;
                 } else {
@@ -114,7 +108,7 @@ public class SearchGifFragment extends Fragment {
             @Override
             public boolean onMenuItemActionCollapse(MenuItem item) {
                 // reload the trending gifs
-                mGiphyListPresenter.loadTrending(10);
+                mGiphyListPresenter.loadTrending(Constant.LIST_OFFSET);
                 return true;
             }
         });
@@ -126,7 +120,6 @@ public class SearchGifFragment extends Fragment {
         int id = item.getItemId();
 
         if (id == R.id.action_search) {
-
             return true;
         }
         return super.onOptionsItemSelected(item);

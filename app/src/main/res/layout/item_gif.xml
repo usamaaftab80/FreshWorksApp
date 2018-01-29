@@ -9,6 +9,7 @@
         android:layout_gravity="center"
         android:layout_width="@android:dimen/thumbnail_width"
         android:layout_height="@android:dimen/thumbnail_height"
+        android:background="@drawable/loading"
         android:padding="@dimen/thumbnail_padding"
         android:src="@drawable/ic_launcher_background" />
 

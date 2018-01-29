@@ -27,9 +27,8 @@ public class MainActivity extends AppCompatActivity implements SearchGifFragment
 
     @Override
     public void onFragmentInteraction(Uri uri) {
-
+        // implement custom fragent interaction implementation here...
     }
-
 
     private void setChildrenViews() {
         // Find the view pager that will allow the user to swipe between fragments
