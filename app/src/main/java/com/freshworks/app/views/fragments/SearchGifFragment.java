@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,6 +16,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
+import android.widget.ToggleButton;
 
 import com.freshworks.app.R;
 import com.freshworks.app.adapters.SearchGifRecyclerAdapter;
@@ -31,10 +34,10 @@ public class SearchGifFragment extends Fragment {
 
     private static String TAG = "SearchGifFragment";
 
-    private OnFragmentInteractionListener mListener;
     private RecyclerView mGifRecyclerView;
     private SearchGifRecyclerAdapter mSearchGifListAdapter;
     private GiphyListPresenter mGiphyListPresenter;
+    private ToggleButton toggleButton;
 
     private static GPHApi client = new GPHApiClient(Constant.GIPHY_API_KEY);
     public SearchGifFragment() {
@@ -44,7 +47,7 @@ public class SearchGifFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-        mGiphyListPresenter = new GiphyListPresenter(getActivity(), this, client);
+        mGiphyListPresenter = new GiphyListPresenter(this, client);
     }
 
     @Override
@@ -52,6 +55,7 @@ public class SearchGifFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_gif, container, false);
+
         ArrayList<Media> dummyGifs = new ArrayList<Media>();
 
         //At the start, give an empty list to adapter.
@@ -70,6 +74,7 @@ public class SearchGifFragment extends Fragment {
 
         //Load it every time the fragment resumes, just to make sure that is loading the most recent trending.
         mGiphyListPresenter.loadTrending(Constant.LIST_OFFSET);
+
     }
 
     @Override
@@ -130,18 +135,12 @@ public class SearchGifFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
+
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        mListener = null;
     }
 
     public void displayGifs(List<Media> gifs) {

@@ -1,13 +1,15 @@
 package com.freshworks.app.adapters;
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import com.bumptech.glide.Glide;
 import com.freshworks.app.R;
@@ -40,8 +42,8 @@ public class SearchGifRecyclerAdapter extends RecyclerView.Adapter<SearchGifRecy
     }
 
     @Override
-    public void onBindViewHolder(LineHolder holder, int position) {
-        Media gif = this.mGifs.get(position);
+    public void onBindViewHolder(final LineHolder holder, int position) {
+        final Media gif = this.mGifs.get(position);
 
         if (gif.getTitle().isEmpty()) {
             holder.gifTextView.setText(R.string.title_not_found);
@@ -52,6 +54,19 @@ public class SearchGifRecyclerAdapter extends RecyclerView.Adapter<SearchGifRecy
         Glide.with(mContext)
                 .load(gif.getImages().getDownsized().getGifUrl())
                 .into(holder.gifImageView);
+
+        holder.favoriteButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    holder.favoriteButton.setBackgroundDrawable(ContextCompat.getDrawable(mContext, R.drawable.favorite_filled));
+
+                } else {
+                    holder.favoriteButton.setBackgroundDrawable(ContextCompat.getDrawable(mContext, R.drawable.favorite_grey));
+
+                }
+            }
+        });
 
     }
 
@@ -69,11 +84,14 @@ public class SearchGifRecyclerAdapter extends RecyclerView.Adapter<SearchGifRecy
 
         TextView gifTextView;
         ImageView gifImageView;
+        ToggleButton favoriteButton;
 
         public LineHolder(View itemView) {
             super(itemView);
             gifTextView = (TextView) itemView.findViewById(R.id.gif_textview);
             gifImageView = (ImageView) itemView.findViewById(R.id.gif_imageview);
+            favoriteButton = (ToggleButton) itemView.findViewById(R.id.button_favorite);
+            favoriteButton.setBackgroundDrawable(ContextCompat.getDrawable(mContext, R.drawable.favorite_grey));
         }
     }
 }

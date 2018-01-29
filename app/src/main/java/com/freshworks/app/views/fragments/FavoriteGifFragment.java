@@ -13,7 +13,6 @@ import com.freshworks.app.R;
 public class FavoriteGifFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
-
     public FavoriteGifFragment() {
         // Required empty public constructor
     }
@@ -28,8 +27,7 @@ public class FavoriteGifFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-        }
+
     }
 
     @Override
@@ -37,13 +35,6 @@ public class FavoriteGifFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_favorite_gif, container, false);
-    }
-
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
     }
 
     @Override
@@ -62,6 +53,7 @@ public class FavoriteGifFragment extends Fragment {
         super.onDetach();
         mListener = null;
     }
+
 
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name

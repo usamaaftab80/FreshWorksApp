@@ -6,10 +6,19 @@
     android:layout_margin="8dp"
     android:orientation="horizontal">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal">
+        android:orientation="vertical">
+
+        <ToggleButton
+            android:id="@+id/button_favorite"
+            android:textOff=""
+            android:textOn=""
+            android:layout_width="29dp"
+            android:layout_height="29dp"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/favorite_filled" />
 
         <ImageView
             android:id="@+id/gif_imageview"
@@ -24,9 +33,11 @@
             android:id="@+id/gif_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
             android:layout_gravity="center"
+            android:layout_toEndOf="@+id/gif_imageview"
             android:text="TextView"
-            android:textSize="18dp" />
+            android:textSize="14dp" />
 
     </LinearLayout>
 </android.support.v7.widget.CardView>
