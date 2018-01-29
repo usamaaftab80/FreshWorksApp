@@ -31,6 +31,8 @@ dependencies {
 
     compile 'com.android.support:design:27.+'
 
+    compile 'com.google.code.gson:gson:2.8.2'
+
     //Retrofit Dependencies
     compile 'com.squareup.retrofit2:retrofit:2.3.0'
 

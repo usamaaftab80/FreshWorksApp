@@ -12,4 +12,8 @@ public class Constant {
     public static String NO_RESULTS_FOUND = "No results found";
     public static String NUMBER_OF_GIFS_DISPLAYING = "The number of gifs displaying are: ";
     public static String NUMBER_OF_GIFS_SEARCHED = "The number of gifs searched are: ";
+
+    public static String SHARED_PREF_TITLE = "SharedPrefFavoriteGifs";
+
+    public static String SHARED_PREF_KEY_NOT_FOUND = "KEY_NOT_FOUND";
 }
