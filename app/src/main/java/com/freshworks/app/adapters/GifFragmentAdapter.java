@@ -5,6 +5,8 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.util.SparseArray;
+import android.view.ViewGroup;
 
 import com.freshworks.app.R;
 import com.freshworks.app.views.fragments.FavoriteGifFragment;
@@ -20,6 +22,7 @@ public class GifFragmentAdapter extends FragmentPagerAdapter {
     private static int mTotalFragmentCount = 2;
 
     private Context mContext;
+    SparseArray<Fragment> registeredFragments = new SparseArray<Fragment>();
 
     public GifFragmentAdapter(Context context, FragmentManager fragmentManager) {
         super(fragmentManager);
@@ -52,5 +55,21 @@ public class GifFragmentAdapter extends FragmentPagerAdapter {
             default:
                 return null;
         }
+    }
+    @Override
+    public Object instantiateItem(ViewGroup container, int position) {
+        Fragment fragment = (Fragment) super.instantiateItem(container, position);
+        registeredFragments.put(position, fragment);
+        return fragment;
+    }
+
+    @Override
+    public void destroyItem(ViewGroup container, int position, Object object) {
+        registeredFragments.remove(position);
+        super.destroyItem(container, position, object);
+    }
+
+    public Fragment getRegisteredFragment(int position) {
+        return registeredFragments.get(position);
     }
 }

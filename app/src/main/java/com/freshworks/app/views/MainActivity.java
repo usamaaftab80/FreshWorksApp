@@ -14,7 +14,7 @@ import com.freshworks.app.presenters.GiphyListPresenter;
 import com.freshworks.app.views.fragments.FavoriteGifFragment;
 import com.freshworks.app.views.fragments.SearchGifFragment;
 
-public class MainActivity extends AppCompatActivity implements SearchGifFragment.OnFragmentInteractionListener{
+public class MainActivity extends AppCompatActivity implements SearchGifFragment.OnFavoriteSelectedListener{
 
     // UI Elements
     private ViewPager mViewPager;
@@ -43,8 +43,8 @@ public class MainActivity extends AppCompatActivity implements SearchGifFragment
     }
 
     @Override
-    public void onFragmentInteraction() {
-        // Refresh The gridview...
-        //mGifFragmentAdapter.getItem(1)
+    public void OnFavoriteSelected() {
+        FavoriteGifFragment favoriteFragment = (FavoriteGifFragment) mGifFragmentAdapter.getRegisteredFragment(1);
+        favoriteFragment.mFavoritePresenter.loadFavorites();
     }
 }

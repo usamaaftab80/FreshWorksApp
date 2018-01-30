@@ -2,10 +2,8 @@ package com.freshworks.app.views.fragments;
 
 import android.app.Activity;
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -17,7 +15,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CompoundButton;
+import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import com.freshworks.app.R;
@@ -41,8 +39,9 @@ public class SearchGifFragment extends Fragment {
     private ToggleButton toggleButton;
 
     private static GPHApi client = new GPHApiClient(Constant.GIPHY_API_KEY);
+    public OnFavoriteSelectedListener mCallback;
 
-    private OnFragmentInteractionListener mCallback;
+    private TextView mGifsNotFoundTextView;
 
     public SearchGifFragment() {
 
@@ -52,6 +51,7 @@ public class SearchGifFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+
         mGiphyListPresenter = new GiphyListPresenter(this, client);
     }
 
@@ -69,6 +69,8 @@ public class SearchGifFragment extends Fragment {
 
         mSearchGifListAdapter = new SearchGifRecyclerAdapter(getActivity(), dummyGifs);
         mGifRecyclerView.setAdapter(mSearchGifListAdapter);
+
+        mGifsNotFoundTextView = (TextView) rootView.findViewById(R.id.textview_no_search);
 
         return rootView;
     }
@@ -142,7 +144,7 @@ public class SearchGifFragment extends Fragment {
         Activity activity = (Activity) context;
 
         try{
-            this.mCallback = (OnFragmentInteractionListener) activity;
+            this.mCallback = (OnFavoriteSelectedListener) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
                     + " must implement OnFragmentInteractionListener");
@@ -152,14 +154,21 @@ public class SearchGifFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
+        mCallback = null;
     }
 
     public void displayGifs(List<Media> gifs) {
+        if(gifs.size() == 0){
+            mGifsNotFoundTextView.setVisibility(View.VISIBLE);
+        }else {
+            mGifsNotFoundTextView.setVisibility(View.INVISIBLE);
+        }
         mSearchGifListAdapter.notifyData(gifs);
+
     }
 
-    public interface OnFragmentInteractionListener {
+    public interface OnFavoriteSelectedListener {
         // TODO: Update argument type and name
-        void onFragmentInteraction();
+        void OnFavoriteSelected();
     }
 }

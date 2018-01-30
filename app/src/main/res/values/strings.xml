@@ -4,5 +4,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="gif_trending_search_fragment">Giphy GIFs (showing trending now)</string>
     <string name="gif_favorite_fragment">Your favorite GIFs</string>
+    <string name="gif_favorite_not_found">You do not have any favorite GIFs</string>
+    <string name="gif_search_not_found">Sorry, No GIF found</string>
     <string name="title_not_found">Title not available from Giphy</string>
 </resources>
