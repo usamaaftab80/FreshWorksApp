@@ -19,4 +19,7 @@ public class Constant {
     public static String MARKED_FAVORITE = "We marked this your favorite GIF";
     public static String MARKED_UNFAVORITE = "We unmarked this as your favorite GIF";
 
+    public static String ERROR_TITLE = "Error";
+    public static String ERROR_BODY_INTERNET_NOT_FOUND = "Unable to find internet. The GIFs won't be loaded...";
+
 }
