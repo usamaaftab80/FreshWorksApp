@@ -28,6 +28,7 @@ public class GiphyListPresenter {
         this.mGiphyApi = giphyApi;
     }
 
+    //Load the trending GIFs where offset is the number of gifs to be loaded at a time.
     public void loadTrending(int offset) {
         mGiphyApi.trending(MediaType.gif, offset, null, null, new CompletionHandler<ListMediaResponse>() {
             @Override
@@ -49,6 +50,7 @@ public class GiphyListPresenter {
         });
     }
 
+    //Search the GIFs where offset is the number of gifs to be loaded at a time.
     public void searchGifs(String keyword, int offset) {
         mGiphyApi.search(keyword, MediaType.gif, offset, null, null, null, new CompletionHandler<ListMediaResponse>() {
             @Override

@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity implements SearchGifFragment
         mTabLayout.setupWithViewPager(mViewPager);
     }
 
+    //OnFavoriteSelected for interaction from one Fragment to Another. Fragments should never interact directly.
     @Override
     public void OnFavoriteSelected() {
         FavoriteGifFragment favoriteFragment = (FavoriteGifFragment) mGifFragmentAdapter.getRegisteredFragment(1);

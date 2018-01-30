@@ -23,8 +23,9 @@ public class FavoriteGifFragment extends Fragment {
 
     public FavoritePresenter mFavoritePresenter;
     private FavoriteGifRecyclerAdapter mFavoriteGifRecyclerAdapter;
-    private RecyclerView favoriteRecyclerView;
+    private RecyclerView mFavoriteRecyclerView;
     private TextView mFavoritesNotFoundTextView;
+    private int mNumberOfColumns = 2;
 
     public FavoriteGifFragment() {
 
@@ -44,14 +45,15 @@ public class FavoriteGifFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_favorite_gif, container, false);
 
         // set up the RecyclerView
-        favoriteRecyclerView = (RecyclerView) rootView.findViewById(R.id.recylerview_favorites);
+        mFavoriteRecyclerView = (RecyclerView) rootView.findViewById(R.id.recylerview_favorites);
         mFavoritesNotFoundTextView = (TextView) rootView.findViewById(R.id.textview_no_favorite);
-        int numberOfColumns = 2;
+
+        //initiate the adapter with an empty list. It will later be updated by notifyDataSetChanged().
         ArrayList<Media> dummyFavoriteGifs = new ArrayList<>();
 
-        favoriteRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), numberOfColumns));
+        mFavoriteRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), mNumberOfColumns));
         mFavoriteGifRecyclerAdapter = new FavoriteGifRecyclerAdapter(getActivity(), dummyFavoriteGifs);
-        favoriteRecyclerView.setAdapter(mFavoriteGifRecyclerAdapter);
+        mFavoriteRecyclerView.setAdapter(mFavoriteGifRecyclerAdapter);
         return rootView;
     }
 

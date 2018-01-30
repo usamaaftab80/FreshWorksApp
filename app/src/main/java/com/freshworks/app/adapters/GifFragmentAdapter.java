@@ -23,6 +23,7 @@ public class GifFragmentAdapter extends FragmentPagerAdapter {
     private Context mContext;
     private SparseArray<Fragment> mRegisteredFragments = new SparseArray<Fragment>();
     private int mTotalFragmentCount = 2;
+
     public GifFragmentAdapter(Context context, FragmentManager fragmentManager) {
         super(fragmentManager);
         mContext = context;

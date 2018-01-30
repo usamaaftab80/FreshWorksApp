@@ -16,7 +16,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.ToggleButton;
 
 import com.freshworks.app.R;
 import com.freshworks.app.adapters.SearchGifRecyclerAdapter;
@@ -36,12 +35,10 @@ public class SearchGifFragment extends Fragment {
     private RecyclerView mGifRecyclerView;
     private SearchGifRecyclerAdapter mSearchGifListAdapter;
     private GiphyListPresenter mGiphyListPresenter;
-    private ToggleButton toggleButton;
-
-    private static GPHApi client = new GPHApiClient(Constant.GIPHY_API_KEY);
-    public OnFavoriteSelectedListener mCallback;
-
     private TextView mGifsNotFoundTextView;
+
+    private static GPHApi mGiphyClient = new GPHApiClient(Constant.GIPHY_API_KEY);
+    public OnFavoriteSelectedListener mCallback;
 
     public SearchGifFragment() {
 
@@ -52,7 +49,7 @@ public class SearchGifFragment extends Fragment {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
 
-        mGiphyListPresenter = new GiphyListPresenter(this, client);
+        mGiphyListPresenter = new GiphyListPresenter(this, mGiphyClient);
     }
 
     @Override
@@ -81,7 +78,6 @@ public class SearchGifFragment extends Fragment {
 
         //Load it every time the fragment resumes, just to make sure that is loading the most recent trending.
         mGiphyListPresenter.loadTrending(Constant.LIST_OFFSET);
-
     }
 
     @Override
@@ -113,6 +109,8 @@ public class SearchGifFragment extends Fragment {
                 }
             }
         });
+
+        //redisplay the trending when searchview is collapsed.
         MenuItemCompat.setOnActionExpandListener(searchItem, new MenuItemCompat.OnActionExpandListener() {
             @Override
             public boolean onMenuItemActionExpand(MenuItem item) {

@@ -56,21 +56,26 @@ public class SearchGifRecyclerAdapter extends RecyclerView.Adapter<SearchGifRecy
 
         final Media gif = this.mGifs.get(position);
 
+        // See if the title is available or not from Giphy
         if (gif.getTitle().isEmpty()) {
             holder.gifTextView.setText(R.string.title_not_found);
         } else {
             holder.gifTextView.setText(gif.getTitle());
         }
 
+        //Load the gif in the imageview
         Glide.with(mContext)
                 .load(gif.getImages().getDownsized().getGifUrl())
                 .into(holder.gifImageView);
 
+        //Adjust the toggle button if the incoming gif exists in SharedPreferences.
         if (doesExistInSharedPreference(gif)) {
             toggleButton(holder.favoriteButton, true);
         }else {
             toggleButton(holder.favoriteButton, false);
         }
+
+        //Implement the behavior onClick Favorite Toggle button.
         holder.favoriteButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             MainActivity mainActivity = (MainActivity) mContext;
 
@@ -111,6 +116,8 @@ public class SearchGifRecyclerAdapter extends RecyclerView.Adapter<SearchGifRecy
             button.setBackgroundDrawable(ContextCompat.getDrawable(mContext, R.drawable.favorite_grey));
         }
     }
+
+    // Add to Shared Preferences. Since Adapter's functionality is close to Model, i decided to put it here. Otherwise, they can also be moved to separate Model classes.
     public void addToSharedPreferences(Media gif) {
         SharedPreferences sharedPreferences = this.mContext.getSharedPreferences(Constant.SHARED_PREF_TITLE, Context.MODE_PRIVATE);
         Gson gson = new Gson();
@@ -119,6 +126,7 @@ public class SearchGifRecyclerAdapter extends RecyclerView.Adapter<SearchGifRecy
         Log.d(TAG, "Id: " + gif.getId() + " added to Shared Preferences");
     }
 
+    // Remove from Shared Preferences. Since Adapter's functionality is close to Model, i decided to put it here. Otherwise, they can also be moved to separate Model classes.
     public void removeFromSharedPreferences(Media gif) {
         SharedPreferences sharedPreferences = this.mContext.getSharedPreferences(Constant.SHARED_PREF_TITLE, Context.MODE_PRIVATE);
 
@@ -142,6 +150,7 @@ public class SearchGifRecyclerAdapter extends RecyclerView.Adapter<SearchGifRecy
         }
     }
 
+    //Holder class for this Recycler View.
     public class LineHolder extends RecyclerView.ViewHolder {
 
         TextView gifTextView;

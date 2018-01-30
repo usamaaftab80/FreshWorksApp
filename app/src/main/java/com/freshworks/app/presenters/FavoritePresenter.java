@@ -34,7 +34,7 @@ public class FavoritePresenter {
         for(Map.Entry<String,?> entry : favoritesMap.entrySet()){
             Media gif = gson.fromJson(entry.getValue().toString(), Media.class);
             favoriteGifs.add(gif);
-            Log.d("map values",entry.getKey() + ": " +
+            Log.d(TAG,entry.getKey() + ": " +
                     entry.getValue().toString());
         }
         this.mGiphyFavoriteFragment.displayFavorites(favoriteGifs);

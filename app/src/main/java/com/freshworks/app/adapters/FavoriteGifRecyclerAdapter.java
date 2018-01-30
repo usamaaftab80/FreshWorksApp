@@ -25,7 +25,7 @@ public class FavoriteGifRecyclerAdapter extends RecyclerView.Adapter<FavoriteGif
     private List<Media> mFavoriteGifs;
     private LayoutInflater mInflater;
     private Context mContext;
-    // data is passed into the constructor
+
     public FavoriteGifRecyclerAdapter(Context context, ArrayList<Media> favoriteGifs) {
         this.mContext = context;
         this.mInflater = LayoutInflater.from(context);
@@ -41,6 +41,8 @@ public class FavoriteGifRecyclerAdapter extends RecyclerView.Adapter<FavoriteGif
     @Override
     public void onBindViewHolder(CellHolder holder, int position) {
         Media favoriteGif = mFavoriteGifs.get(position);
+
+        //Using Glide to load gif in the imageview.
         Glide.with(mContext)
                 .load(favoriteGif.getImages().getDownsized().getGifUrl())
                 .into(holder.gifImageView);
@@ -58,7 +60,6 @@ public class FavoriteGifRecyclerAdapter extends RecyclerView.Adapter<FavoriteGif
 
     public class CellHolder extends RecyclerView.ViewHolder {
 
-        //TextView gifTextView;
         ImageView gifImageView;
 
         public CellHolder(View itemView) {
