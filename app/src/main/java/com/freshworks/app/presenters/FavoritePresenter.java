@@ -8,6 +8,7 @@ import com.freshworks.app.views.fragments.SearchGifFragment;
 import com.giphy.sdk.core.models.Media;
 import com.google.gson.Gson;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -28,13 +29,16 @@ public class FavoritePresenter {
 
     public void loadFavorites(){
         Map<String, ?> favoritesMap = (Map<String, String>) this.mSharedPreferences.getAll();
-        Gson gson = new Gson();
+        ArrayList<Media> favoriteGifs = new ArrayList<>();
 
+        Gson gson = new Gson();
 
         for(Map.Entry<String,?> entry : favoritesMap.entrySet()){
             Media gif = gson.fromJson(entry.getValue().toString(), Media.class);
+            favoriteGifs.add(gif);
             Log.d("map values",entry.getKey() + ": " +
                     entry.getValue().toString());
         }
+        this.mGiphyFavoriteFragment.displayFavorites(favoriteGifs);
     }
 }

@@ -109,7 +109,6 @@ public class SearchGifFragment extends Fragment {
                 } else {
                   return false;
                 }
-
             }
         });
         MenuItemCompat.setOnActionExpandListener(searchItem, new MenuItemCompat.OnActionExpandListener() {
@@ -148,7 +147,6 @@ public class SearchGifFragment extends Fragment {
             throw new ClassCastException(activity.toString()
                     + " must implement OnFragmentInteractionListener");
         }
-
     }
 
     @Override

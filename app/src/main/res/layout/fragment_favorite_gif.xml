@@ -1,23 +1,24 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="com.freshworks.app.views.fragments.FavoriteGifFragment">
-
+    android:layout_height="match_parent">
     <!-- TODO: Update blank fragment layout -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/gif_favorite_fragment"
+        android:fontFamily="sans-serif"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         android:textSize="18sp"
-        android:typeface="monospace"/>
+        android:typeface="monospace"
+        android:id="@+id/textView" />
 
-    <ListView
-        android:id="@+id/favorite_listview"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent" >
-    </ListView>
-</LinearLayout>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recylerview_favorites"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/textView" />
+
+</RelativeLayout>

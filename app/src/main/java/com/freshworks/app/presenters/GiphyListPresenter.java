@@ -24,7 +24,6 @@ public class GiphyListPresenter {
     // Giphy Api Variables
     private GPHApi mGiphyApi;
 
-
     public GiphyListPresenter(SearchGifFragment searchFragment, GPHApi giphyApi) {
         this.mGiphySearchFragment = searchFragment;
         this.mGiphyApi = giphyApi;

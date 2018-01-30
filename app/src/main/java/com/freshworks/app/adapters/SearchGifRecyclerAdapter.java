@@ -11,11 +11,13 @@ import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.bumptech.glide.Glide;
 import com.freshworks.app.R;
 import com.freshworks.app.data.Constant;
+import com.freshworks.app.views.fragments.FavoriteGifFragment;
 import com.giphy.sdk.core.models.Media;
 import com.google.gson.Gson;
 
@@ -66,9 +68,11 @@ public class SearchGifRecyclerAdapter extends RecyclerView.Adapter<SearchGifRecy
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     holder.favoriteButton.setBackgroundDrawable(ContextCompat.getDrawable(mContext, R.drawable.favorite_filled));
+                    Toast.makeText(mContext, Constant.MARKED_FAVORITE, Toast.LENGTH_LONG).show();
                     addToSharedPreferences(gif);
                 } else {
                     holder.favoriteButton.setBackgroundDrawable(ContextCompat.getDrawable(mContext, R.drawable.favorite_grey));
+                    Toast.makeText(mContext, Constant.MARKED_UNFAVORITE, Toast.LENGTH_LONG).show();
                     removeFromSharedPreferences(gif);
                 }
             }

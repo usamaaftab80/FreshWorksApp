@@ -14,6 +14,9 @@ public class Constant {
     public static String NUMBER_OF_GIFS_SEARCHED = "The number of gifs searched are: ";
 
     public static String SHARED_PREF_TITLE = "SharedPrefFavoriteGifs";
-
     public static String SHARED_PREF_KEY_NOT_FOUND = "KEY_NOT_FOUND";
+
+    public static String MARKED_FAVORITE = "We marked this your favorite GIF";
+    public static String MARKED_UNFAVORITE = "We unmarked this as your favorite GIF";
+
 }

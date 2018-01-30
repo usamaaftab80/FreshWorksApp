@@ -2,7 +2,7 @@
     <string name="app_name">FreshWorks GIF Application</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="gif_trending_search_fragment">Trending and Search Fragment</string>
-    <string name="gif_favorite_fragment">Favorite Fragment</string>
+    <string name="gif_trending_search_fragment">Giphy GIFs (showing trending now)</string>
+    <string name="gif_favorite_fragment">Your favorite GIFs</string>
     <string name="title_not_found">Title not available from Giphy</string>
 </resources>
