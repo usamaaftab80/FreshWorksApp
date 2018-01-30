@@ -1,5 +1,6 @@
 package com.freshworks.app.views.fragments;
 
+import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -40,6 +41,9 @@ public class SearchGifFragment extends Fragment {
     private ToggleButton toggleButton;
 
     private static GPHApi client = new GPHApiClient(Constant.GIPHY_API_KEY);
+
+    private OnFragmentInteractionListener mCallback;
+
     public SearchGifFragment() {
 
     }
@@ -136,6 +140,14 @@ public class SearchGifFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        Activity activity = (Activity) context;
+
+        try{
+            this.mCallback = (OnFragmentInteractionListener) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString()
+                    + " must implement OnFragmentInteractionListener");
+        }
 
     }
 
@@ -150,6 +162,6 @@ public class SearchGifFragment extends Fragment {
 
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
+        void onFragmentInteraction();
     }
 }
