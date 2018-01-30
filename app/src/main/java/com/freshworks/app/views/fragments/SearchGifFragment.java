@@ -41,6 +41,7 @@ public class SearchGifFragment extends Fragment {
 
     private static GPHApi client = new GPHApiClient(Constant.GIPHY_API_KEY);
     public SearchGifFragment() {
+
     }
 
     @Override

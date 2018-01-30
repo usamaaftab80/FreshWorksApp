@@ -9,43 +9,42 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.freshworks.app.R;
+import com.freshworks.app.data.Constant;
+import com.freshworks.app.presenters.FavoritePresenter;
 
 public class FavoriteGifFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
+    private FavoritePresenter mFavoritePresenter;
+
     public FavoriteGifFragment() {
         // Required empty public constructor
-    }
-
-    public static FavoriteGifFragment newInstance(String param1, String param2) {
-        FavoriteGifFragment fragment = new FavoriteGifFragment();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
-        return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        mFavoritePresenter = new FavoritePresenter(getActivity().getSharedPreferences(Constant.SHARED_PREF_TITLE, Context.MODE_PRIVATE), this);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        mFavoritePresenter.loadFavorites();
         return inflater.inflate(R.layout.fragment_favorite_gif, container, false);
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
     }
 
     @Override

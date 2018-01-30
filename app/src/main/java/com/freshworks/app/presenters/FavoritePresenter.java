@@ -1,9 +1,15 @@
 package com.freshworks.app.presenters;
 
 import android.content.SharedPreferences;
+import android.util.Log;
 
+import com.freshworks.app.views.fragments.FavoriteGifFragment;
 import com.freshworks.app.views.fragments.SearchGifFragment;
 import com.giphy.sdk.core.models.Media;
+import com.google.gson.Gson;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Usama Aftab on 2018-01-28.
@@ -11,11 +17,24 @@ import com.giphy.sdk.core.models.Media;
 
 public class FavoritePresenter {
     private static String TAG = "FavoritePresenter";
-    private SearchGifFragment mGiphySearchFragment;
+
+    private FavoriteGifFragment mGiphyFavoriteFragment;
     private SharedPreferences mSharedPreferences;
 
-    public FavoritePresenter(SharedPreferences sharedPreferences, SearchGifFragment searchFragment) {
-        this.mGiphySearchFragment = searchFragment;
+    public FavoritePresenter(SharedPreferences sharedPreferences, FavoriteGifFragment favoriteFragment) {
+        this.mGiphyFavoriteFragment = favoriteFragment;
         this.mSharedPreferences = sharedPreferences;
+    }
+
+    public void loadFavorites(){
+        Map<String, ?> favoritesMap = (Map<String, String>) this.mSharedPreferences.getAll();
+        Gson gson = new Gson();
+
+
+        for(Map.Entry<String,?> entry : favoritesMap.entrySet()){
+            Media gif = gson.fromJson(entry.getValue().toString(), Media.class);
+            Log.d("map values",entry.getKey() + ": " +
+                    entry.getValue().toString());
+        }
     }
 }

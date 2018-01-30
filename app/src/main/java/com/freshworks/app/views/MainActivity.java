@@ -8,6 +8,8 @@ import android.os.Bundle;
 
 import com.freshworks.app.R;
 import com.freshworks.app.adapters.GifFragmentAdapter;
+import com.freshworks.app.data.Constant;
+import com.freshworks.app.presenters.FavoritePresenter;
 import com.freshworks.app.presenters.GiphyListPresenter;
 import com.freshworks.app.views.fragments.FavoriteGifFragment;
 import com.freshworks.app.views.fragments.SearchGifFragment;
@@ -17,6 +19,7 @@ public class MainActivity extends AppCompatActivity implements SearchGifFragment
     // UI Elements
     private ViewPager mViewPager;
     private TabLayout mTabLayout;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +43,24 @@ public class MainActivity extends AppCompatActivity implements SearchGifFragment
         // Set the adapter onto the view pager
         mViewPager.setAdapter(adapter);
 
+        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                if(position == 1){
+
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
         // Give the TabLayout the ViewPager
         mTabLayout = (TabLayout) findViewById(R.id.slideMainTabLayout);
         mTabLayout.setupWithViewPager(mViewPager);
