@@ -1,6 +1,5 @@
 package com.freshworks.app.presenters;
 
-import android.content.Context;
 import android.util.Log;
 
 import com.freshworks.app.data.Constant;

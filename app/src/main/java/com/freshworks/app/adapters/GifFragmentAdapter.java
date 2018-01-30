@@ -21,12 +21,11 @@ public class GifFragmentAdapter extends FragmentPagerAdapter {
     private static String TAG = "GifFragmentAdapter";
 
     private Context mContext;
-    SparseArray<Fragment> mRegisteredFragments;
-
+    private SparseArray<Fragment> mRegisteredFragments = new SparseArray<Fragment>();
+    private int mTotalFragmentCount = 2;
     public GifFragmentAdapter(Context context, FragmentManager fragmentManager) {
         super(fragmentManager);
         mContext = context;
-        mRegisteredFragments = new SparseArray<Fragment>();
     }
     @Override
     public Fragment getItem(int position) {
@@ -40,7 +39,7 @@ public class GifFragmentAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return mRegisteredFragments.size();
+        return mTotalFragmentCount;
     }
 
     @Nullable

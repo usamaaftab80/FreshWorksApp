@@ -4,12 +4,10 @@ import android.content.SharedPreferences;
 import android.util.Log;
 
 import com.freshworks.app.views.fragments.FavoriteGifFragment;
-import com.freshworks.app.views.fragments.SearchGifFragment;
 import com.giphy.sdk.core.models.Media;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 
 /**

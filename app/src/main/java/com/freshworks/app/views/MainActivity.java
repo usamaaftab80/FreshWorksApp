@@ -1,6 +1,5 @@
 package com.freshworks.app.views;
 
-import android.net.Uri;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -8,9 +7,6 @@ import android.os.Bundle;
 
 import com.freshworks.app.R;
 import com.freshworks.app.adapters.GifFragmentAdapter;
-import com.freshworks.app.data.Constant;
-import com.freshworks.app.presenters.FavoritePresenter;
-import com.freshworks.app.presenters.GiphyListPresenter;
 import com.freshworks.app.views.fragments.FavoriteGifFragment;
 import com.freshworks.app.views.fragments.SearchGifFragment;
 
