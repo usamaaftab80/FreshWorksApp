@@ -52,6 +52,8 @@ public class SearchGifRecyclerAdapter extends RecyclerView.Adapter<SearchGifRecy
 
     @Override
     public void onBindViewHolder(final LineHolder holder, int position) {
+        Log.d(TAG, "onBindViewHolder is called...");
+
         final Media gif = this.mGifs.get(position);
 
         if (gif.getTitle().isEmpty()) {
@@ -65,23 +67,27 @@ public class SearchGifRecyclerAdapter extends RecyclerView.Adapter<SearchGifRecy
                 .into(holder.gifImageView);
 
         if (doesExistInSharedPreference(gif)) {
-            holder.favoriteButton.toggle();
+            toggleButton(holder.favoriteButton, true);
+        }else {
+            toggleButton(holder.favoriteButton, false);
         }
         holder.favoriteButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             MainActivity mainActivity = (MainActivity) mContext;
 
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    holder.favoriteButton.setBackgroundDrawable(ContextCompat.getDrawable(mContext, R.drawable.favorite_filled));
-                    Toast.makeText(mContext, Constant.MARKED_FAVORITE, Toast.LENGTH_LONG).show();
-                    addToSharedPreferences(gif);
-                    mainActivity.OnFavoriteSelected();
-                } else {
-                    holder.favoriteButton.setBackgroundDrawable(ContextCompat.getDrawable(mContext, R.drawable.favorite_grey));
-                    Toast.makeText(mContext, Constant.MARKED_UNFAVORITE, Toast.LENGTH_LONG).show();
-                    removeFromSharedPreferences(gif);
-                    mainActivity.OnFavoriteSelected();
+                if(buttonView.isPressed()) {
+                    if (isChecked) {
+                        toggleButton(holder.favoriteButton, true);
+                        Toast.makeText(mContext, Constant.MARKED_FAVORITE, Toast.LENGTH_LONG).show();
+                        addToSharedPreferences(gif);
+                        mainActivity.OnFavoriteSelected();
+                    } else {
+                        toggleButton(holder.favoriteButton, false);
+                        Toast.makeText(mContext, Constant.MARKED_UNFAVORITE, Toast.LENGTH_LONG).show();
+                        removeFromSharedPreferences(gif);
+                        mainActivity.OnFavoriteSelected();
+                    }
                 }
             }
         });
@@ -98,6 +104,13 @@ public class SearchGifRecyclerAdapter extends RecyclerView.Adapter<SearchGifRecy
         notifyDataSetChanged();
     }
 
+    public void toggleButton(ToggleButton button, boolean state) {
+        if(state){
+            button.setBackgroundDrawable(ContextCompat.getDrawable(mContext, R.drawable.favorite_filled));
+        }else{
+            button.setBackgroundDrawable(ContextCompat.getDrawable(mContext, R.drawable.favorite_grey));
+        }
+    }
     public void addToSharedPreferences(Media gif) {
         SharedPreferences sharedPreferences = this.mContext.getSharedPreferences(Constant.SHARED_PREF_TITLE, Context.MODE_PRIVATE);
         Gson gson = new Gson();

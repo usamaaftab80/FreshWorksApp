@@ -19,14 +19,14 @@ import com.freshworks.app.views.fragments.SearchGifFragment;
 public class GifFragmentAdapter extends FragmentPagerAdapter {
 
     private static String TAG = "GifFragmentAdapter";
-    private static int mTotalFragmentCount = 2;
 
     private Context mContext;
-    SparseArray<Fragment> registeredFragments = new SparseArray<Fragment>();
+    SparseArray<Fragment> mRegisteredFragments;
 
     public GifFragmentAdapter(Context context, FragmentManager fragmentManager) {
         super(fragmentManager);
         mContext = context;
+        mRegisteredFragments = new SparseArray<Fragment>();
     }
     @Override
     public Fragment getItem(int position) {
@@ -40,7 +40,7 @@ public class GifFragmentAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return mTotalFragmentCount;
+        return mRegisteredFragments.size();
     }
 
     @Nullable
@@ -59,17 +59,17 @@ public class GifFragmentAdapter extends FragmentPagerAdapter {
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
         Fragment fragment = (Fragment) super.instantiateItem(container, position);
-        registeredFragments.put(position, fragment);
+        mRegisteredFragments.put(position, fragment);
         return fragment;
     }
 
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
-        registeredFragments.remove(position);
+        mRegisteredFragments.remove(position);
         super.destroyItem(container, position, object);
     }
 
     public Fragment getRegisteredFragment(int position) {
-        return registeredFragments.get(position);
+        return mRegisteredFragments.get(position);
     }
 }
